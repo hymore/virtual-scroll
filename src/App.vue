@@ -1,28 +1,56 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <virtual-list
+      :size="80"
+      :remain="8"
+      :list="list"
+      v-slot="{ item }"
+      :variable="true"
+    >
+      <scroll-item :item="item"></scroll-item>
+    </virtual-list>
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
-
+import VirtualList from "./components/virtual-list.vue";
+import ScrollItem from "./components/scroll-item";
+import Mock from "mockjs";
+let list = [];
+for (let i = 0; i < 1000; i++) {
+  list.push({ id: i, value: Mock.Random.sentence(5, 50) });
+}
 export default {
-  name: "App",
   components: {
-    HelloWorld
+    VirtualList,
+    ScrollItem
+  },
+  data() {
+    return {
+      list
+    };
   }
 };
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 1em;
+  background-color: rgba(50, 50, 50, 0.3);
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 1em;
+  background-color: rgba(50, 50, 50, 0.1);
 }
 </style>
